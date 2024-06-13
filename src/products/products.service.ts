@@ -60,12 +60,14 @@ this.handleDBExceptions(error)
 
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+   const product = await this.findOne(id)
+
+   await this.productRepository.remove(product)
   }
 
 private handleDBExceptions(error: any) {
