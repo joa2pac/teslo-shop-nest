@@ -84,7 +84,21 @@ if( isUUID(term) ) {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    
+   
+    const product = await this.productRepository.preload({
+      id: id,
+      ...updateProductDto
+    });
+
+    if(!product) throw new NotFoundException(`Product with id ${id} not found`);
+
+   try {
+    await this.productRepository.save(product);
+
+    return product;
+   } catch (error) {
+    this.handleDBExceptions(error)
+   }
   }
 
   async remove(id: string) {
