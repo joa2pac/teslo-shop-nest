@@ -41,6 +41,12 @@ sizes: string[]
 @Column('text')
 gender: string;
 
+@Column('text', {
+    array: true,
+    
+})
+tags: string[];
+
 @BeforeInsert()
 checkSlugInsert( ) {
 
