@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from './dto'
+import { AuthGuard } from '@nestjs/passport';
 
 
 
@@ -18,5 +19,14 @@ export class AuthController {
     return this.authService.login( loginUserDto );
   }
 
-  
+
+  @Get('private')
+  @UseGuards( AuthGuard() )
+  testingPrivateRoute() {
+
+    return {
+      ok: true,
+      message: 'Hola Mundo Private Route'
+    }
+  }
 }
