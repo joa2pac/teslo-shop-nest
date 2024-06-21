@@ -37,7 +37,7 @@ constructor(
 
       return {
         ...user,
-        token: this.getJwtToken({ email: user.email })
+        token: this.getJwtToken({ id: user.id })
       }; 
 
     } catch(error) {
@@ -50,11 +50,11 @@ constructor(
 async login(loginUserDto: LoginUserDto) {
 
 
-  const {email, password} = loginUserDto;
+  const { email, password} = loginUserDto;
 
   const user = await this.userRepository.findOne({
     where: { email },
-    select: { email: true, password: true }
+    select: { id: true, password: true, email: true }
   });
 
   if( !user ) 
@@ -66,7 +66,7 @@ async login(loginUserDto: LoginUserDto) {
 
   return {
     ...user,
-    token: this.getJwtToken({ email: user.email })
+    token: this.getJwtToken({  id: user.id })
   };
 
 }
