@@ -15,19 +15,20 @@ export class MessagesWsGateway implements OnGatewayConnection, OnGatewayDisconne
     private readonly messagesWsService: MessagesWsService,
     private readonly jwtService: JwtService
   ) {}
-  handleConnection(client: Socket) {
+  
+  async handleConnection(client: Socket) {
 
       const token = client.handshake.headers.authentication as string;
       let payload: JwtPayload;
       try {
         payload = this.jwtService.verify( token );
+        await this.messagesWsService.registerCliente( client, payload.id );
       } catch(error) {
         client.disconnect();
         return;
       }
-      console.log({ payload })
- 
-      this.messagesWsService.registerCliente( client );
+     
+      
 
       this.wss.emit('clients-updated', this.messagesWsService.getConnectedClients() );
   }
