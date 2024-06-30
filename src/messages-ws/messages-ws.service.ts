@@ -40,8 +40,14 @@ export class MessagesWsService {
 
 
     getConnectedClients(): string[] {
-
+        console.log( this.connectedClients )
         return Object.keys( this.connectedClients );
+
+    }
+
+    getUserFUllName( socketId: string ) {
+
+        return this.connectedClients[socketId].user.fullName;
 
     }
 }
